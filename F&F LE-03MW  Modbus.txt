@@ -1,0 +1,131 @@
+# Licznik F&F LE-03MW
+modbus:
+  - name: hub1
+    type: serial
+    baudrate: 9600
+    port: /dev/ttyUSB0
+    bytesize: 8
+    method: rtu
+    parity: E
+    stopbits: 1
+    sensors:
+      - name: L1 - napięcie fazowe
+        unit_of_measurement: V
+        device_class: voltage
+        slave: 1
+        address: 14
+        #   input_type: float32
+        data_type: float32
+        scan_interval: 5
+      - name: L2 - napięcie fazowe
+        unit_of_measurement: V
+        device_class: voltage
+        slave: 1
+        address: 16
+        data_type: float32
+        scan_interval: 5
+      - name: L3 - napięcie fazowe
+        unit_of_measurement: V
+        device_class: voltage
+        slave: 1
+        address: 18
+        data_type: float32
+        scan_interval: 5
+      - name: L1 – Prąd fazowy
+        unit_of_measurement: A
+        device_class: power
+        slave: 1
+        address: 22
+        data_type: float32
+        scan_interval: 5
+      - name: L2 – Prąd fazowy
+        unit_of_measurement: A
+        device_class: power
+        slave: 1
+        address: 24
+        data_type: float32
+        scan_interval: 5
+      - name: L3 – Prąd fazowy
+        unit_of_measurement: A
+        device_class: power
+        slave: 1
+        address: 26
+        data_type: float32
+        scan_interval: 5
+      - name: L3 – Prąd fazowy
+        unit_of_measurement: A
+        device_class: power
+        slave: 1
+        address: 26
+        data_type: float32
+        scan_interval: 5
+      - name: Całkowita moc czynna
+        unit_of_measurement: kW
+        device_class: power
+        slave: 1
+        address: 28
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L1 – moc czynna
+        unit_of_measurement: kW
+        device_class: power
+        slave: 1
+        address: 30
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L2 – moc czynna
+        unit_of_measurement: kW
+        device_class: power
+        slave: 1
+        address: 32
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L3 – moc czynna
+        unit_of_measurement: kW
+        device_class: power
+        slave: 1
+        address: 34
+        data_type: float32
+        scan_interval: 5
+      - name: Częstotliwość
+        unit_of_measurement: Hz
+        device_class: power
+        slave: 1
+        address: 20
+        data_type: float32
+        scan_interval: 5
+      - name: Całkowita energia czynna
+        unit_of_measurement: kWh
+        device_class: energy
+        slave: 1
+        address: 256
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L1 – całkowita energia czynna
+        unit_of_measurement: kWh
+        device_class: energy
+        slave: 1
+        address: 258
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L2 – całkowita energia czynna
+        unit_of_measurement: kWh
+        device_class: energy
+        slave: 1
+        address: 260
+        data_type: float32
+        scan_interval: 5
+      - name: Faza L3 – całkowita energia czynna
+        unit_of_measurement: kWh
+        device_class: energy
+        slave: 1
+        address: 262
+        data_type: float32
+        scan_interval: 5
+      - name: Taryfa T1 – całkowita energia czynna
+        unit_of_measurement: kWh
+        device_class: energy
+        slave: 1
+        address: 304
+        data_type: float32
+        scan_interval: 5

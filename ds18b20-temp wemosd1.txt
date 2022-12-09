@@ -1,0 +1,30 @@
+sensor:
+  - platform: dallas
+    address: 0x570a456c0e64ff28
+    name: "Temperatura Salon"
+  - platform: dallas
+    address: 0x702e47620e64ff28
+    name: "Temperatura Ana"
+  - platform: dallas
+    address: 0x73011d7e0e64ff28
+    name: "Temperatura Wiatrołap"
+  - platform: dallas
+    address: 0x6413b56d0e64ff28
+    name: "Temperatura ŁazienkaD"
+  - platform: dallas
+    address: 0xf345b76d0e64ff28
+    name: "Temperatura Mati"
+  - platform: dallas
+    address: 0xc098387e0e64ff28
+    name: "Temperatura Garaż"
+  - platform: dallas
+    address: 0x9415856d0e64ff28
+    name: "Temperatura Kuchnia"
+  - platform: dallas
+    address: 0x6d28017e0e64ff28
+    name: "Temperatura ŁazienkaM"
+
+0x52586b790e64ff28
+0x18b4976d0e64ff28
+Sensor 1 : 0x28, 0xFF, 0x64, 0x0E, 0x79, 0x6B, 0x58, 0x52
+Sensor 2 : 0x28, 0xFF, 0x64, 0x0E, 0x6D, 0x97, 0xB4, 0x18

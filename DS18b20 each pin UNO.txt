@@ -1,0 +1,343 @@
+// Program napisany dla 10 termometrów DS18B20 z przypisanymi pinami dla płytki arduino UNO wyłączając PIN-y 1 i 2, wykorzystujac maksymalna liczbę dostępnych pinów jest za malo dostpenej pamieci
+// Program z biblioteką MySensors do sterowania przy pomocy Domoticz-a 
+
+#define MY_GATEWAY_SERIAL
+#include <SPI.h>
+#include <MySensors.h>  
+#include <DallasTemperature.h>
+#include <OneWire.h>
+
+#define COMPARE_TEMP 1 // 
+
+#define DS_NR_1 A0  //Piny dla poszczególnych czujników
+#define DS_NR_2 A1
+#define DS_NR_3 A2
+#define DS_NR_4 A3
+#define DS_NR_5 A4
+#define DS_NR_6 A5
+#define DS_NR_7 2
+#define DS_NR_8 3
+#define DS_NR_9 4
+
+
+#define ds18B20 16
+
+unsigned long SLEEP_TIME = 5000;    //Czas pomiędzy kolejnymi odczytami 5sec
+
+OneWire AWire(DS_NR_1);             //Określamy nazwę kolejnego czujnika OneWire np AWire, BWire, CWire itd.
+DallasTemperature sensor1(&AWire);  // Odczyt temperatury dla wcześniej zdefiniowanego AWire ustawiamy kolejno sensor1, sensors 2, sensor 3 itd. 
+int lastTemperature1[ds18B20];    //ostatnia temperatura - ta zmienna pozostaje bez zmian
+
+OneWire BWire(DS_NR_2); 
+DallasTemperature sensor2(&BWire); 
+int lastTemperature2[ds18B20];
+
+OneWire CWire(DS_NR_3); 
+DallasTemperature sensor3(&CWire);  
+int lastTemperature3[ds18B20];
+
+OneWire DWire(DS_NR_4); 
+DallasTemperature sensor4(&DWire);  
+int lastTemperature4[ds18B20];
+
+OneWire EWire(DS_NR_5); 
+DallasTemperature sensor5(&EWire);  
+int lastTemperature5[ds18B20];
+
+OneWire FWire(DS_NR_6); 
+DallasTemperature sensor6(&FWire);  
+int lastTemperature6[ds18B20];
+
+OneWire GWire(DS_NR_7); 
+DallasTemperature sensor7(&GWire);  
+int lastTemperature7[ds18B20];
+
+OneWire HWire(DS_NR_8); 
+DallasTemperature sensor8(&HWire);  
+int lastTemperature8[ds18B20];
+
+OneWire IWire(DS_NR_9); 
+DallasTemperature sensor9(&IWire);  
+int lastTemperature9[ds18B20];
+
+bool receivedConfig = false;
+bool metric = true;
+
+MyMessage msg1(1,V_TEMP);
+MyMessage msg2(2,V_TEMP);
+MyMessage msg3(3,V_TEMP);
+MyMessage msg4(4,V_TEMP);
+MyMessage msg5(5,V_TEMP);
+MyMessage msg6(6,V_TEMP);
+MyMessage msg7(7,V_TEMP);
+MyMessage msg8(8,V_TEMP);
+MyMessage msg9(9,V_TEMP);
+
+void before()
+{
+  // Startup up the OneWire library
+  sensor1.begin();
+  sensor2.begin();
+  sensor3.begin();
+  sensor4.begin();
+  sensor5.begin();
+  sensor6.begin();
+  sensor7.begin();
+  sensor8.begin();
+  sensor9.begin();
+
+}
+
+void setup()  
+{ 
+  
+  sensor1.setWaitForConversion(false);
+  sensor2.setWaitForConversion(false);
+  sensor3.setWaitForConversion(false);
+  sensor4.setWaitForConversion(false);
+  sensor5.setWaitForConversion(false);
+  sensor6.setWaitForConversion(false);
+  sensor7.setWaitForConversion(false);
+  sensor8.setWaitForConversion(false);
+  sensor9.setWaitForConversion(false);
+}
+
+void presentation() {
+ 
+  sendSketchInfo("Czujniki temperatury DS18B20", "1.1");
+
+     present(1, S_TEMP);
+     present(2, S_TEMP);
+     present(3, S_TEMP);
+     present(4, S_TEMP);
+     present(5, S_TEMP);
+     present(6, S_TEMP);
+     present(7, S_TEMP);
+     present(8, S_TEMP);
+     present(9, S_TEMP);
+   
+  }
+
+void loop() 
+{     
+  {
+    sensor1.requestTemperatures();
+
+    int16_t conversionTime1 = sensor1.millisToWaitForConversion(sensor1.getResolution());
+  
+    sleep(conversionTime1);
+
+    int i=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor1.getTempCByIndex(i):sensor1.getTempFByIndex(i)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature1[i] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg1.setSensor(1).set(temperature,1));
+    lastTemperature1[i]=temperature;
+    }
+    }
+    }
+//--------------------------2-------------------------------
+    {
+    sensor2.requestTemperatures();
+
+    int16_t conversionTime2 = sensor2.millisToWaitForConversion(sensor2.getResolution());
+  
+    sleep(conversionTime2);
+
+    int k=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor2.getTempCByIndex(k):sensor2.getTempFByIndex(k)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature2[k] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg2.setSensor(2).set(temperature,1));
+    lastTemperature2[k]=temperature;
+    }
+    }
+    }
+//---------------------------3---------------------------------------------------------------------------
+    {
+    sensor3.requestTemperatures();
+
+    int16_t conversionTime3 = sensor3.millisToWaitForConversion(sensor3.getResolution());
+  
+    sleep(conversionTime3);
+
+    int j=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor3.getTempCByIndex(j):sensor3.getTempFByIndex(j)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature3[j] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg3.setSensor(3).set(temperature,1));
+    lastTemperature3[j]=temperature;
+    }
+    }
+    }
+
+//----------------------------4----------------------------------------------------------------
+  {
+    sensor4.requestTemperatures();
+
+    int16_t conversionTime4 = sensor4.millisToWaitForConversion(sensor4.getResolution());
+  
+    sleep(conversionTime4);
+
+    int k=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor4.getTempCByIndex(k):sensor4.getTempFByIndex(k)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature4[k] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg4.setSensor(4).set(temperature,1));
+    lastTemperature4[k]=temperature;
+    }
+    }
+    }
+//-----------------------------5----------------------------
+  {
+    sensor5.requestTemperatures();
+
+    int16_t conversionTime5 = sensor5.millisToWaitForConversion(sensor5.getResolution());
+  
+    sleep(conversionTime5);
+
+    int l=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor5.getTempCByIndex(l):sensor5.getTempFByIndex(l)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature5[l] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg5.setSensor(5).set(temperature,1));
+    lastTemperature5[l]=temperature;
+    }
+    }
+    }
+//------------------------------6---------------------------
+  {
+    sensor6.requestTemperatures();
+
+    int16_t conversionTime6 = sensor6.millisToWaitForConversion(sensor6.getResolution());
+  
+    sleep(conversionTime6);
+
+    int m=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor6.getTempCByIndex(m):sensor6.getTempFByIndex(m)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature6[m] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg6.setSensor(6).set(temperature,1));
+    lastTemperature6[m]=temperature;
+    }
+    }
+    }
+//-------------------------------7--------------------------
+  {
+    sensor7.requestTemperatures();
+
+    int16_t conversionTime7 = sensor7.millisToWaitForConversion(sensor7.getResolution());
+  
+    sleep(conversionTime7);
+
+    int n=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor7.getTempCByIndex(n):sensor7.getTempFByIndex(n)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature7[n] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg7.setSensor(7).set(temperature,1));
+    lastTemperature7[n]=temperature;
+    }
+    }
+    }
+//--------------------------------8-------------------------
+  {
+    sensor8.requestTemperatures();
+
+    int16_t conversionTime8 = sensor8.millisToWaitForConversion(sensor8.getResolution());
+  
+    sleep(conversionTime8);
+
+    int o=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor8.getTempCByIndex(o):sensor8.getTempFByIndex(o)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature8[o] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg8.setSensor(8).set(temperature,1));
+    lastTemperature8[o]=temperature;
+    }
+    }
+    }
+//--------------------------------9-------------------------
+  {
+    sensor9.requestTemperatures();
+
+    int16_t conversionTime9 = sensor9.millisToWaitForConversion(sensor9.getResolution());
+  
+    sleep(conversionTime9);
+
+    int p=0; {
+
+    float temperature = static_cast<float>(static_cast<int>((getControllerConfig().isMetric?sensor9.getTempCByIndex(p):sensor9.getTempFByIndex(p)) * 10.)) / 10.;
+
+    
+    #if COMPARE_TEMP == 1
+    if (lastTemperature9[p] != temperature && temperature != -127.00 && temperature != 85.00) {
+    #else
+    if (temperature != -127.00 && temperature != 85.00) {
+    #endif
+
+    send(msg9.setSensor(9).set(temperature,1));
+    lastTemperature9[p]=temperature;
+    }
+    }
+    }
+ 
+//---------------------------------------------------------
+
+  sleep(SLEEP_TIME);
+}
