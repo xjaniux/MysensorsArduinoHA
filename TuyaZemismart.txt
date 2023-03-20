@@ -1,0 +1,23 @@
+cover:
+  - platform: template
+    name: "Curtains"
+    id: curtains
+    assumed_state: true
+    open_action:
+      - lambda: |-
+          pinMode(14, OUTPUT);
+          digitalWrite(14, LOW);
+          delayMicroseconds(1000000);
+          pinMode(14, INPUT);
+    close_action:
+      - lambda: |-
+          pinMode(12, OUTPUT);
+          digitalWrite(12, LOW);
+          delayMicroseconds(1000000);
+          pinMode(12, INPUT);
+    stop_action:
+      - lambda: |-
+          pinMode(2, OUTPUT);
+          digitalWrite(2, LOW);
+          delayMicroseconds(1000000);
+          pinMode(2, INPUT);
